@@ -7,7 +7,7 @@ body {
   background:       rgb(220,220,220);
 }
 
-#isbn {
+#main {
   width:            280px;
   /* margin:           50px; */
   margin:           50px auto;
@@ -16,9 +16,8 @@ body {
   font:             24px "Noto Sans", sans-serif;
 }
 
-#isbn input {
+#ireru {
   width:            250px;
-  margin:           0 0 25px;
   padding:          .25em .5em;
 
   background:       rgb(255,255,255);
@@ -31,6 +30,34 @@ body {
 }
 
 #isbn #isbn-out {
+  margin-top:       25px;
+
+  text-align:       center;
+  text-decoration:  none;
+}
+
+#jidai {
+  margin-top:       25px;
+  text-align:       left;
+}
+
+#jidai #jidai-k {
+  border-bottom:    none;
+  border-radius:    5px 5px 0 0;
+}
+
+#jidai #jidai-r {
+  border-top-width: 1px;
+  border-bottom:    none;
+  border-radius:    0;
+}
+
+#jidai #jidai-y {
+  border-top-width: 1px;
+  border-radius:    0 0 5px 5px;
+}
+
+.shimesu {
   display:          block;
 
   width:            250px;
@@ -43,12 +70,9 @@ body {
   color:            black;
 
   line-height:      35px;
-  text-align:       center;
-  text-decoration:  none;
 }
 
-#isbn #isbn-out:hover {
+.shimesu:hover {
   background:       rgba(255,255,255,1);
-  border-color:     rgba(0,0,0,0.5);
   cursor:           pointer;
 }

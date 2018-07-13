@@ -1,33 +1,61 @@
 Mousetrap.bind('space', () => {
-  focus('#isbn-in');
+  focus('#ireru');
 }, 'keyup');
 
 
-$('#isbn-in').on('input', () => {
-  const isbnIn  = $('#isbn-in').val();
+$('#ireru').on('input', () => {
+  const input   = $('#ireru').val();
   const isbnOut = $('#isbn-out');
-  const isbn    = toIsbn(isbnIn);
+  const r       = {
+      isbn:   /^\d{13}$/,
+      jidai:  /^([mtsh]?)(\d{1,3})$/
+    }
 
-  if (isbn) {
+  if (r.isbn.test(input)) {
+    const isbn = toIsbn(input);
+
     toClipboard(isbn);
-    focus('#isbn-in');
+    focus('#ireru');
     isbnOut.text(isbn);
-    isbnOut.attr('href', google('ean '.concat(isbnIn)));
-  } else {
-    const hz = hanzi();
-    isbnOut.text(hz);
-    isbnOut.attr('href', google(hz));
+    isbnOut.attr('href', google('ean '.concat(input)));
+    return;
+  }
+  else if (r.jidai.test(input)) {
+    const jidaiK = $('#jidai-k');
+    const jidaiR = $('#jidai-r');
+    const jidaiY = $('#jidai-y');
+
+    const match = r.jidai.exec(input);
+    const gou   = match[1] ? match[1] : 'mg';
+    const nen   = match[2];
+
+    const [kj, rj, ad] = jidai(gou, nen);
+
+    jidaiK.text(kj);
+    jidaiR.text(rj);
+    jidaiY.text(ad);
+  }
+
+  const hz = hanzi();
+  isbnOut.text(hz);
+  isbnOut.attr('href', google(hz));
+});
+
+
+$('#ireru').keyup(e => {
+  if (e.keyCode === 13) {
+    toClipboard($('#isbn-out').text());
+    focus('#ireru');
+  } else if (e.keyCode === 16) {
+    background($('#ireru').val());
   }
 });
 
 
-$('#isbn-in').keyup(e => {
-  if (e.keyCode === 13) {
-    toClipboard($('#isbn-out').text());
-    focus('#isbn-in');
-  } else if (e.keyCode === 16) {
-    background($('#isbn-in').val());
-  }
+[$('#jidai-k'), $('#jidai-r'), $('#jidai-y')].forEach(x => {
+  x.on('click', () => {
+    toClipboard(x.text());
+  })
 });
 
 
@@ -40,6 +68,49 @@ const toIsbn = x =>
         x.substr(12, 1)
       ].join('-')
     : false;
+
+
+const jidai = (g, nen) => {
+  const jd =
+    { m:  ['明治', 'Meiji',  1868],
+      t:  ['大正', 'Taishō', 1912],
+      s:  ['昭和', 'Shōwa',  1926],
+      h:  ['平成', 'Heisei', 1989],
+      mg: ['民國', 'Minguo', 1912]
+    }
+  const [gou, gouR, ad] = jd[g];
+  const AD = (ad - 1) + parseInt(nen);
+
+  return [ gou.concat((g === 'mg') ? toKJ(nen)[0] : nen,
+                      '年'),
+           gouR.concat(' ',
+                       (g === 'mg') ? toKJ(nen)[1] : nen,
+                       ' ',
+                       (g === 'mg') ? 'nian' : 'nen'),
+           AD
+         ];
+};
+
+
+const toKJ = s => {
+  const digit = [
+    ['零', 'ling'],
+    ['一', 'yi'],
+    ['二', 'er'],
+    ['三', 'san'],
+    ['四', 'si'],
+    ['五', 'wu'],
+    ['六', 'liu'],
+    ['七', 'qi'],
+    ['八', 'ba'],
+    ['九', 'jiu']];
+
+  const arr = s.split('');
+  const k = arr.map(x => digit[parseInt(x)][0]).join('');
+  const r = arr.map(x => digit[parseInt(x)][1]).join(' ');
+
+  return [k, r];
+};
 
 
 const google = x =>
