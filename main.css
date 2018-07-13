@@ -18,7 +18,7 @@ body {
 
 #ireru {
   width:            250px;
-  padding:          .25em .5em;
+  padding:          6px 12px;
 
   background:       rgb(255,255,255);
   border:           2px solid rgba(0,0,0,0.5);
@@ -50,6 +50,8 @@ body {
   border-top-width: 1px;
   border-bottom:    none;
   border-radius:    0;
+
+  font-size:        20px;
 }
 
 #jidai #jidai-y {
@@ -61,7 +63,7 @@ body {
   display:          block;
 
   width:            250px;
-  padding:          .25em .5em;
+  padding:          6px 12px;
 
   background:       rgba(255,255,255,0.5);
   border:           2px solid rgba(0,0,0,0.5);
