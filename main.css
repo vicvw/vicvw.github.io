@@ -8,8 +8,10 @@ body {
 }
 
 #isbn {
-  width:            250px;
-  margin:           50px;
+  width:            280px;
+  /* margin:           50px; */
+  margin:           50px auto;
+  /* border:           1px solid black; */
 
   font:             24px "Noto Sans", sans-serif;
 }

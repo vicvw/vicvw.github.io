@@ -1,5 +1,5 @@
 Mousetrap.bind('space', () => {
-  $('#isbn-in').focus().val('');
+  focus('#isbn-in');
 }, 'keyup');
 
 
@@ -9,6 +9,8 @@ $('#isbn-in').on('input', () => {
   const isbn    = toIsbn(isbnIn);
 
   if (isbn) {
+    toClipboard(isbn);
+    focus('#isbn-in');
     isbnOut.text(isbn);
     isbnOut.attr('href', google('ean '.concat(isbnIn)));
   } else {
@@ -22,34 +24,30 @@ $('#isbn-in').on('input', () => {
 $('#isbn-in').keyup(e => {
   if (e.keyCode === 13) {
     toClipboard($('#isbn-out').text());
+    focus('#isbn-in');
+  } else if (e.keyCode === 16) {
+    background($('#isbn-in').val());
   }
 });
 
 
-const toIsbn = x => {
-  if (/^\d{13}$/.test(x)) {
-    const a = x.substr( 0, 3),
-          b = x.substr( 3, 1),
-          c = x.substr( 4, 3),
-          d = x.substr( 7, 5),
-          e = x.substr(12, 1);
-
-    return [a, b, c, d, e].join('-');
-    return a.concat('-', b);
-  } else {
-    return false;
-  }
-}
+const toIsbn = x =>
+  /^\d{13}$/.test(x)
+    ? [ x.substr( 0, 3),
+        x.substr( 3, 1),
+        x.substr( 4, 3),
+        x.substr( 7, 5),
+        x.substr(12, 1)
+      ].join('-')
+    : false;
 
 
-const google = x => {
-    return 'https://www.google.de/search?q='.concat(x);
-}
+const google = x =>
+  'https://www.google.de/search?q='.concat(x);
 
 
-const hanzi = () => {
-  return String.fromCharCode(0x4E00 + Math.random() * (0x9FFF - 0x4E00 + 1));
-}
+const hanzi = () =>
+  String.fromCharCode(0x4E00 + Math.random() * (0x9FFF - 0x4E00 + 1));
 
 
 const toClipboard = str => {
@@ -71,3 +69,14 @@ const toClipboard = str => {
     document.getSelection().addRange(selected);
   }
 };
+
+
+const background = x => {
+  const rgb = 'rgb('.concat(x, ')');
+  $('body').css('background-color', rgb);
+}
+
+
+const focus = x => {
+  $(x).val('').focus();
+}
