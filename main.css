@@ -1,0 +1,52 @@
+* {
+  margin:           0;
+  padding:          0;
+}
+
+body {
+  background:       rgb(220,220,220);
+}
+
+#isbn {
+  width:            250px;
+  margin:           50px;
+
+  font:             24px "Noto Sans", sans-serif;
+}
+
+#isbn input {
+  width:            250px;
+  margin:           0 0 25px;
+  padding:          .25em .5em;
+
+  background:       rgb(255,255,255);
+  border:           2px solid rgba(0,0,0,0.5);
+  border-radius:    5px;
+
+  font:             500 24px "Noto Sans", sans-serif;
+  line-height:      35px;
+  text-align:       center;
+}
+
+#isbn #isbn-out {
+  display:          block;
+
+  width:            250px;
+  padding:          .25em .5em;
+
+  background:       rgba(255,255,255,0.5);
+  border:           2px solid rgba(0,0,0,0.5);
+  border-radius:    5px;
+
+  color:            black;
+
+  line-height:      35px;
+  text-align:       center;
+  text-decoration:  none;
+}
+
+#isbn #isbn-out:hover {
+  background:       rgba(255,255,255,1);
+  border-color:     rgba(0,0,0,0.5);
+  cursor:           pointer;
+}
