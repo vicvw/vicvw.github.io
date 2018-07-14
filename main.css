@@ -9,22 +9,21 @@ body {
 
 #main {
   width:            280px;
-  /* margin:           50px; */
   margin:           50px auto;
-  /* border:           1px solid black; */
 
-  font:             24px "Noto Sans", sans-serif;
+  font:             24px 'Noto Sans', sans-serif;
 }
 
 #ireru {
   width:            250px;
   padding:          6px 12px;
 
-  background:       rgb(255,255,255);
   border:           2px solid rgba(0,0,0,0.5);
   border-radius:    5px;
 
-  font:             500 24px "Noto Sans", sans-serif;
+  background:       rgb(255,255,255);
+
+  font:             500 24px 'Noto Sans', sans-serif;
   line-height:      35px;
   text-align:       center;
 }
@@ -59,16 +58,50 @@ body {
   border-radius:    0 0 5px 5px;
 }
 
+#sagasu {
+  margin-top:       25px;
+}
+
+#sagasu a {
+  display:          block;
+
+  width:            250px;
+  padding:          3px 12px;
+
+  border:           1px solid rgba(0,0,0,0.25);
+  border-bottom:    none;
+
+  background:       rgba(255,255,255,0.25);
+  color:            black;
+
+  font-size:        20px;
+  line-height:      35px;
+  text-decoration:  none;
+}
+
+#sagasu a:first-of-type {
+  border-radius:    5px 5px 0 0;
+}
+
+#sagasu a:last-of-type {
+  border-bottom:    1px solid rgba(0,0,0,0.25);
+  border-radius:    0 0 5px 5px;
+}
+
+#sagasu a:hover {
+  background:       rgba(255,255,255,0.5);
+}
+
 .shimesu {
   display:          block;
 
   width:            250px;
   padding:          6px 12px;
 
-  background:       rgba(255,255,255,0.5);
   border:           2px solid rgba(0,0,0,0.5);
   border-radius:    5px;
 
+  background:       rgba(255,255,255,0.5);
   color:            black;
 
   line-height:      35px;
@@ -77,4 +110,31 @@ body {
 .shimesu:hover {
   background:       rgba(255,255,255,1);
   cursor:           pointer;
+}
+
+#yori {
+  position:         absolute;
+  bottom:           0;
+  left:             0;
+  right:            0;
+  height:           35px;
+
+  padding:          6px 0;
+
+  border-top:       1px solid rgba(0,0,0,0.25);
+
+  background:       rgba(255,255,255,0.25);
+  color:            rgba(0,0,0,0.25);
+
+  font:             15px 'Noto Sans CJK JP';
+  line-height:      35px;
+  text-align:       center;
+}
+
+#yori:after {
+  content:          'カザツ';
+}
+
+#yori:hover {
+  color:            black;
 }
