@@ -26,13 +26,14 @@ a {
 
 #main {
   display:                grid;
-  grid-template-columns:  auto 300px auto;
+  grid-template-columns:  auto 300px 300px 300px auto;
   grid-template-rows:     auto;
-  grid-gap:               25px 0;
-  grid-template-areas:    ". ireru  ."
-  ". isbn   ."
-  ". jidai  ."
-  ". sagasu .";
+  grid-gap:               25px;
+  grid-template-areas:
+    ". . ireru  py ."
+    ". . isbn   py ."
+    ". . jidai  py ."
+    ". . sagasu py .";
 
   margin-top:       50px;
 }
@@ -97,6 +98,24 @@ a {
 
 #sagasu > a:hover {
   background:       rgba(255,255,255,0.5);
+}
+
+#py {
+  grid-area:        py;
+  max-height:       480px;
+  overflow:         scroll;
+}
+
+#py div {
+  background:       rgba(255,255,255,0.1);
+  border-color:     rgba(0,0,0,0.1);
+  font-size:        15px;
+  line-height:      30px;
+}
+
+#py div:hover {
+  background:       rgba(255,255,255,0.25);
+  cursor:           pointer;
 }
 
 #yori {

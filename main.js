@@ -20,8 +20,10 @@ $('#ireru').on('input', () => {
   const input   = $('#ireru').val();
   const isbnOut = $('#isbn-out');
   const r       = {
-      isbn:   /^\d{13}$/,
-      jidai:  /^([mtsh]?)([1-9]\d{0,2})$/
+      isbn:     /^\d{13}$/,
+      jidai:    /^([mtsh]?)([1-9]\d*)$/,
+      pinyin:   /^p(.+)$/,
+      critics:  /^\/(.+)$/
     }
 
   if (r.isbn.test(input)) {
@@ -47,6 +49,22 @@ $('#ireru').on('input', () => {
     jidaiK.text(kj);
     jidaiR.text(rj);
     jidaiY.text(ad);
+  }
+  else if (r.pinyin.test(input)) {
+    const py = $('#py').empty();
+
+    const match = r.pinyin.exec(input);
+    const pys   = permutations(pinyinlite(match[1]));
+
+    pys.forEach(x => {
+      const xDiv = $('<div></div>').text(x).on('click', () => {
+        toClipboard(x);});
+
+      $('#py').append(xDiv);
+    });
+  }
+  else if (r.critics.test(input)) {
+    toClipboard(capitalize(removeDiacritics(r.critics.exec(input)[1])));
   }
 
   const hz = hanzi();
@@ -103,29 +121,9 @@ const jidai = (g, nen) => {
 };
 
 
-// const toKJ = s => {
-//   const digit = [
-//     ['零', 'ling'],
-//     ['一', 'yi'],
-//     ['二', 'er'],
-//     ['三', 'san'],
-//     ['四', 'si'],
-//     ['五', 'wu'],
-//     ['六', 'liu'],
-//     ['七', 'qi'],
-//     ['八', 'ba'],
-//     ['九', 'jiu']];
-
-//   const arr = s.split('');
-//   const k = arr.map(x => digit[parseInt(x)][0]).join('');
-//   const r = arr.map(x => digit[parseInt(x)][1]).join(' ');
-
-//   return [k, r];
-// };
-
-
 const s = {
   google:   x => 'https://www.google.de/search?q='.concat(x),
+  baidu:    x => 'https://www.baidu.com/s?ie=utf-8&f=8&wd='.concat(x),
   worldcat: x => 'http://www.worldcat.org/search?qt=worldcat_org_all&q='.concat(x),
   jstor:    x => 'https://www.jstor.org/action/doBasicSearch?Query='.concat(x, '&acc=off&wc=on&fc=off&group=none'),
   amazon:   x => 'https://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Daps&field-keywords='.concat(x)
@@ -134,6 +132,32 @@ const s = {
 
 const hanzi = () =>
   String.fromCharCode(0x4E00 + Math.random() * (0x9FFF - 0x4E00 + 1));
+
+
+const permutations = arr => {
+  const perms = [];
+
+  const permutationsH = (s, arrs, k) => {
+    if (k === arrs.length) {
+      perms.push(capitalize(s));
+    } else {
+      arrs[k].forEach(x => {
+        permutationsH(s.concat(x, ' '), arrs, k + 1);
+      });
+    }
+  }
+
+  permutationsH('', arr.map(x => x.reverse()), 0);
+  return perms;
+}
+
+
+const capitalize = str =>
+  str.charAt(0).toUpperCase().concat(str.slice(1).toLowerCase());
+
+
+const removeDiacritics = str =>
+  str.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
 
 
 const toClipboard = str => {
