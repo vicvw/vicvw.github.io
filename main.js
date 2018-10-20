@@ -22,7 +22,7 @@ $('#ireru').on('input', () => {
   const r       = {
       isbn:     /^\d{13}$/,
       jidai:    /^([mtsh]?)([1-9]\d*)$/,
-      pinyin:   /^p(.+)$/,
+      pinyin:   /^\.(.+)$/,
       critics:  /^\/(.+)$/
     }
 

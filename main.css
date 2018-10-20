@@ -103,8 +103,13 @@ a {
 #py {
   grid-area:        py;
   max-height:       480px;
-  overflow:         scroll;
+  overflow:         auto;
 }
+
+/* #py::-webkit-scrollbar { */
+/*   /1* display:          hidden; *1/ */
+/*   width:            0; */
+/* } */
 
 #py div {
   background:       rgba(255,255,255,0.1);
