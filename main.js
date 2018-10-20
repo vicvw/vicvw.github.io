@@ -126,6 +126,7 @@ const s = {
   baidu:    x => 'https://www.baidu.com/s?ie=utf-8&f=8&wd='.concat(x),
   worldcat: x => 'http://www.worldcat.org/search?qt=worldcat_org_all&q='.concat(x),
   jstor:    x => 'https://www.jstor.org/action/doBasicSearch?Query='.concat(x, '&acc=off&wc=on&fc=off&group=none'),
+  scholar:  x => 'https://scholar.google.com/scholar?q='.concat(x),
   amazon:   x => 'https://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Daps&field-keywords='.concat(x)
 };
 
