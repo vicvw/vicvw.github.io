@@ -1,0 +1,147 @@
+* {
+  margin:           0;
+  padding:          0;
+}
+
+body {
+  display:                grid;
+  grid-template-columns:  auto 600px auto;
+  grid-template-rows:     auto;
+  grid-template-areas:    ". main .";
+
+  margin-top:             50px;
+  background:             rgb(220,220,220);
+}
+
+/* a { */
+/*   display:          block; */
+/*   text-decoration:  none; */
+/* } */
+
+:focus {
+  box-shadow:       inset 0 5px 10px rgba(0,0,0,0.1);
+}
+
+::selection {
+  background:       rgba(0,0,0,0.1);
+}
+
+#main {
+  /* box-shadow: 0 0 10px black; */
+  grid-area:              main;
+
+  display:                grid;
+  grid-template-columns:  repeat(3, 1fr);
+  grid-template-rows:     repeat(7, auto);
+  grid-gap:               5px;
+  grid-template-areas:
+    "output       output        output"
+    "author       author        year"
+    "title        title         volume"
+    "place        publisher     edition"
+    "series       series        number"
+    "translator   translator    ."
+    "explanation  explanation   explanation";
+}
+
+
+#main input {
+  box-sizing:       border-box;
+  width:            100%;
+  padding:          5px 10px;
+  border:           1px solid rgba(0,0,0,0.5);
+  border-width:     1px;
+  border-radius:    5px;
+  outline:          none;
+  color:            black;
+  font:             25px 'Noto Sans', sans-serif;
+  line-height:      40px;
+}
+
+#main input:invalid {
+  opacity:  0.5;
+}
+
+#output {
+  grid-area:      output;
+  margin-bottom:  40px;
+  font:           25px 'Noto Serif', sans-serif;
+  line-height:    40px;
+}
+
+#output-copy {
+  opacity:    0;
+  font:       12px serif;
+}
+
+#author {
+  grid-area:  author;
+}
+
+#year {
+  grid-area:  year;
+}
+
+#title {
+  grid-area:  title;
+}
+
+#volume {
+  grid-area:  volume;
+}
+
+#place {
+  grid-area:  place;
+}
+
+#publisher {
+  grid-area:  publisher;
+}
+
+#edition {
+  grid-area:  edition;
+}
+
+#series {
+  grid-area:  series;
+}
+
+#number {
+  grid-area:  number;
+}
+
+#translator {
+  grid-area:  translator;
+}
+
+#explanation {
+  grid-area:    explanation;
+  margin-top:   40px;
+  color:        rgba(0,0,0,0.25);
+  font:         15px 'Noto Sans', sans;
+  line-height:  25px;
+}
+
+#yori {
+  position:         absolute;
+  bottom:           0;
+  left:             0;
+  right:            0;
+
+  border-top:       1px solid rgba(0,0,0,0.25);
+
+  background:       rgba(255,255,255,0.25);
+  color:            rgba(0,0,0,0.25);
+
+  font:             15px 'Noto Sans CJK JP';
+  text-align:       center;
+}
+
+#yori:after {
+  content:          'カザツ';
+  line-height:      35px;
+}
+
+#yori:hover {
+  color:            black;
+}

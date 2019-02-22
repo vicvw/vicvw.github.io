@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ビブリオグラフィー</title>
+    <meta charset="utf-8">
+    <!-- <link rel="stylesheet" href="main.css"> -->
+    <link rel="stylesheet" href="bibliography.css">
+</head>
+<body>
+    <div id="main">
+        <div id="output">&nbsp</div>
+        <div id="output-copy">&nbsp</div>
+
+        <div id="author">     <input id="i-author"      type="text" required="required" placeholder="Author"></div>
+        <div id="year">       <input id="i-year"        type="text" required="required" placeholder="Year"></div>
+        <div id="title">      <input id="i-title"       type="text" required="required" placeholder="Title"></div>
+        <div id="volume">     <input id="i-volume"      type="text" required="required" placeholder="Volume"></div>
+        <div id="place">      <input id="i-place"       type="text" required="required" placeholder="Place"></div>
+        <div id="publisher">  <input id="i-publisher"   type="text" required="required" placeholder="Publisher"></div>
+        <div id="edition">    <input id="i-edition"     type="text" required="required" placeholder="Edition"></div>
+        <div id="series">     <input id="i-series"      type="text" required="required" placeholder="Series"></div>
+        <div id="number">     <input id="i-number"      type="text" required="required" placeholder="Number"></div>
+        <div id="translator"> <input id="i-translator"  type="text" required="required" placeholder="Translator"></div>
+
+        <div id="explanation">
+            Press <b>[Enter]</b> when inside of an input field to copy to clipboard.
+            <br/>
+            <b>Author:</b> Append <b>+</b> for automatic <b>et al.</b>, append <b>/h</b> for <b>(Hg.)</b>.
+        </div>
+    </div>
+
+    <div id="yori"></div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="mousetrap.min.js"></script>
+    <script src="pinyinlite_full.min.js"></script>
+    <script src="bibliography.js"></script>
+</body>
+</html>
