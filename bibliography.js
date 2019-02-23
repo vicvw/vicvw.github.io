@@ -16,8 +16,13 @@ $('#main input').on('input', () => {
   const outputCopy  = $('#output-copy');
 
   const author      = $('#i-author').val();
+  const collection  = $('#i-collection').val();
+  const date        = $('#i-date').val();
   const edition     = $('#i-edition').val();
+  const editor      = $('#i-editor').val();
+  const issue       = $('#i-issue').val();
   const number      = $('#i-number').val();
+  const pages       = $('#i-pages').val();
   const place       = $('#i-place').val();
   const publisher   = $('#i-publisher').val();
   const series      = $('#i-series').val();
@@ -25,6 +30,31 @@ $('#main input').on('input', () => {
   const translator  = $('#i-translator').val();
   const volume      = $('#i-volume').val();
   const year        = $('#i-year').val();
+
+  // const out = con(
+  //   exists(author,
+  //     fmtAuthor,
+  //     c('o.A.')),
+  //   ' ',
+  //   parens(nexists(year,
+  //     c('o.J.'))),
+  //   ': ',
+  //   italic(title),
+  //   '. ',
+  //   exists(volume,
+  //     x => con('Bd. ', x, '. ')),
+  //   exists(translator,
+  //     x => con('Übers. v. ', x, '. ')),
+  //   nexists(place,
+  //     c('o.O.')),
+  //   exists(publisher,
+  //     x => con(': ', x)),
+  //   exists(series,
+  //     x => parens(con('= ', x, '; ', number), ' ')),
+  //   exists(edition,
+  //     x => parens(con(x, '. Aufl.'), ' ')),
+  //   '.'
+  // );
 
   const out = con(
     exists(author,
@@ -34,20 +64,50 @@ $('#main input').on('input', () => {
     parens(nexists(year,
       c('o.J.'))),
     ': ',
-    con('<i>', title, '</i>'),
+    nexists(collection,
+      c(italic(title)),
+      c(quote(title))),
     '. ',
+    exists(collection,
+      x => con(
+        'In: ',
+        nexists(issue,
+          c(con(
+            exists(editor,
+              fmtAuthor,
+              c('o.H.')),
+            '. ')),
+          c('')),
+        italic(x),
+        '. ')),
+    exists(issue,
+      x => con(' Vol. ', x,
+        exists(number,
+          n => con(', Nr. ', n)),
+        parens(
+          exists(date,
+            id,
+            c(nexists(year,
+              c('o.J.')))),
+          ' '))),
     exists(volume,
       x => con('Bd. ', x, '. ')),
     exists(translator,
       x => con('Übers. v. ', x, '. ')),
-    nexists(place,
-      c('o.O.')),
-    exists(publisher,
-      x => con(': ', x)),
+    nexists(issue,
+      c(nexists(place,
+        c('o.O.'))),
+      c('')),
+    nexists(issue,
+      c(exists(publisher,
+        x => con(': ', x))),
+      c('')),
     exists(series,
       x => parens(con('= ', x, '; ', number), ' ')),
     exists(edition,
       x => parens(con(x, '. Aufl.'), ' ')),
+    exists(pages,
+      x => con(', S. ', fmtPages(x))),
     '.'
   );
 
@@ -57,7 +117,7 @@ $('#main input').on('input', () => {
 
 
 const fmtAuthor = x => {
-  let {groups: {a1, a2, a3, et, hg}} = r.authors.exec(x);
+  const {groups: {a1, a2, a3, et, hg}} = r.authors.exec(x);
   // console.log([a1, a2, a3, et, hg]);
   return con(
     def(et,
@@ -72,19 +132,29 @@ const fmtAuthor = x => {
 }
 
 
-const r = {
-  authors:  /^(?<a1>.+?)?(;\s*(?<a2>.+?))?(;\s*(?<a3>.+?))?(?<et>\+)?(?<hg>\/h)?$/
+const fmtPages = x => {
+  const {groups: {start, end}} = r.pages.exec(x);
+  return con(
+    start,
+    def(end,
+      x => con('–', end)));
 }
 
 
+const r = {
+  authors:  /^(?<a1>.+?)?(;\s*(?<a2>.+?))?(;\s*(?<a3>.+?))?(?<et>\+)?(?<hg>\/h)?$/,
+  pages:    /^(?<start>\d+)([ ,;-](?<end>\d*))?$/
+}
+
+
+const italic = (x, before = '', after = '') =>
+  con(before, '<i>', x, '</i>', after);
+const quote = (x, before = '', after = '') =>
+  con(before, '„', x, '”', after);
 const parens = (x, before = '', after = '') =>
   con(before, '(', x, ')', after);
-
-
 const wrap = (x, a, b) =>
   con(a, x, b);
-
-
 const con = (...s) =>
   ''.concat(...s);
 
@@ -107,14 +177,11 @@ const is = (test, x, fy, fn) =>
 
 const isEmpty = x =>
   $.trim(x).length === 0;
-
-
 const isDef = x =>
   typeof x !== 'undefined';
 
-
-const c = x =>
-  () => x;
+const id = x => x;
+const c = x => () => x;
 
 
 // $('#ireru').on('input', () => {
