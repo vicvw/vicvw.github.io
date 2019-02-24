@@ -28,6 +28,7 @@ $('#main input').on('input', () => {
   const series      = $('#i-series').val();
   const title       = $('#i-title').val();
   const translator  = $('#i-translator').val();
+  const url         = $('#i-url').val();
   const volume      = $('#i-volume').val();
   const year        = $('#i-year').val();
 
@@ -59,10 +60,10 @@ $('#main input').on('input', () => {
   const out = con(
     exists(author,
       fmtAuthor,
-      c('o.A.')),
+      c(o.a)),
     ' ',
     parens(nexists(year,
-      c('o.J.'))),
+      c(o.j))),
     ': ',
     nexists(collection,
       c(italic(title)),
@@ -72,11 +73,13 @@ $('#main input').on('input', () => {
       x => con(
         'In: ',
         nexists(issue,
-          c(con(
-            exists(editor,
-              fmtAuthor,
-              c('o.H.')),
-            '. ')),
+          c(nexists(url,
+              c(con(
+                exists(editor,
+                  fmtAuthor,
+                  c(o.h)),
+                '. ')),
+              c(''))),
           c('')),
         italic(x),
         '. ')),
@@ -88,15 +91,17 @@ $('#main input').on('input', () => {
           exists(date,
             id,
             c(nexists(year,
-              c('o.J.')))),
+              c(o.j)))),
           ' '))),
     exists(volume,
       x => con('Bd. ', x, '. ')),
     exists(translator,
       x => con('Übers. v. ', x, '. ')),
-    nexists(issue,
-      c(nexists(place,
-        c('o.O.'))),
+    nexists(url,
+      c(nexists(issue,
+        c(nexists(place,
+          c(o.o))),
+        c(''))),
       c('')),
     nexists(issue,
       c(exists(publisher,
@@ -106,14 +111,32 @@ $('#main input').on('input', () => {
       x => parens(con('= ', x, '; ', number), ' ')),
     exists(edition,
       x => parens(con(x, '. Aufl.'), ' ')),
+    exists(url,
+      u => con(
+        'Aus dem Internet: ',
+        wrap(u, '<code>', '</code>'),
+        parens(con('abgerufen am: ', date), s.s))),
     exists(pages,
-      x => con(', S. ', fmtPages(x))),
+      x => con(', S.', s.na, fmtPages(x))),
     '.'
   );
 
   output.html(out);
   outputCopy.html(out);
 });
+
+
+const o = {
+  a:  'o.\u202fA.',
+  h:  'o.\u202fH.',
+  j:  'o.\u202fJ.',
+  o:  'o.\u202fO.'
+}
+const s = {
+  s:  '\u0020',
+  nb: '\u00a0',
+  na: '\u202f'
+}
 
 
 const fmtAuthor = x => {

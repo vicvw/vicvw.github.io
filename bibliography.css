@@ -43,21 +43,26 @@ body {
     "collection   collection    issue"
     "editor       editor        pages"
     "translator   translator    date"
+    "url          url           url"
     "explanation  explanation   explanation";
 }
 
-
 #main input {
-  box-sizing:       border-box;
-  width:            100%;
-  padding:          5px 10px;
-  border:           1px solid rgba(0,0,0,0.5);
-  border-width:     1px;
-  border-radius:    5px;
-  outline:          none;
-  color:            black;
-  font:             25px 'Noto Sans', sans-serif;
-  line-height:      40px;
+  box-sizing:     border-box;
+  width:          100%;
+  padding:        5px 10px;
+  border:         1px solid rgba(0,0,0,0.5);
+  border-width:   1px;
+  border-radius:  5px;
+  outline:        none;
+  color:          black;
+  font:           25px 'Noto Sans', sans-serif;
+  line-height:    40px;
+}
+
+#main #i-url,
+code {
+  font-family:    'Noto Sans Mono Cond', monospace;
 }
 
 #main input:invalid {
@@ -76,6 +81,26 @@ body {
   font:       12px serif;
 }
 
+#output-copy code {
+  font:       12px 'Noto Sans Mono', monospace;
+}
+
+#explanation {
+  grid-area:    explanation;
+  margin-top:   40px;
+  color:        rgba(0,0,0,0.25);
+  font:         15px 'Noto Sans', sans;
+  line-height:  25px;
+}
+
+p + p {
+  margin-top:  1em;
+}
+
+#explanation ul {
+  margin-left: 2em;
+}
+
 #title      { grid-area:  title; }
 #volume     { grid-area:  volume; }
 #author     { grid-area:  author; }
@@ -91,14 +116,7 @@ body {
 #pages      { grid-area:  pages; }
 #translator { grid-area:  translator; }
 #date       { grid-area:  date; }
-
-#explanation {
-  grid-area:    explanation;
-  margin-top:   40px;
-  color:        rgba(0,0,0,0.25);
-  font:         15px 'Noto Sans', sans;
-  line-height:  25px;
-}
+#url        { grid-area:  url; }
 
 #yori {
   position:         absolute;
@@ -111,7 +129,7 @@ body {
   background:       rgba(255,255,255,0.25);
   color:            rgba(0,0,0,0.25);
 
-  font:             15px 'Noto Sans CJK JP';
+  font:             15px 'Noto Sans CJK JP', sans;
   text-align:       center;
 }
 
