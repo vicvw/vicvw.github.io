@@ -11,6 +11,7 @@ $('#main input').keyup(e => {
 });
 
 
+var egg = false;
 $('#main input').on('input', () => {
   const output      = $('#output');
   const outputCopy  = $('#output-copy');
@@ -27,6 +28,8 @@ $('#main input').on('input', () => {
   const publisher   = $('#i-publisher').val();
   const series      = $('#i-series').val();
   const title       = $('#i-title').val();
+  const titleA      = $('#i-title-a').val();
+  const titleT      = $('#i-title-t').val();
   const translator  = $('#i-translator').val();
   const url         = $('#i-url').val();
   const volume      = $('#i-volume').val();
@@ -61,13 +64,25 @@ $('#main input').on('input', () => {
     exists(author,
       fmtAuthor,
       c(o.a)),
-    ' ',
+    s.s,
     parens(nexists(year,
       c(o.j))),
     ': ',
     nexists(collection,
-      c(italic(title)),
-      c(quote(title))),
+      c(nexists(titleA,
+        c(italic(title)),
+        ta => con(
+          italic(title),
+          s.s,
+          ta,
+          exists(titleT,
+            tt => italic(brackets(tt, s.s)))))),
+      c(quote(con(
+        title,
+        exists(titleA,
+          ta => con(s.s, ta)),
+        exists(titleT,
+          tt => brackets(tt, s.s)))))),
     '. ',
     exists(collection,
       x => con(
@@ -78,9 +93,9 @@ $('#main input').on('input', () => {
                 exists(editor,
                   fmtAuthor,
                   c(o.h)),
-                '. ')),
-              c(''))),
-          c('')),
+                ': ')),
+              c(s.e))),
+          c(s.e)),
         italic(x),
         '. ')),
     exists(issue,
@@ -92,7 +107,7 @@ $('#main input').on('input', () => {
             id,
             c(nexists(year,
               c(o.j)))),
-          ' '))),
+          s.s))),
     exists(volume,
       x => con('Bd. ', x, '. ')),
     exists(translator,
@@ -101,16 +116,16 @@ $('#main input').on('input', () => {
       c(nexists(issue,
         c(nexists(place,
           c(o.o))),
-        c(''))),
-      c('')),
+        c(s.e))),
+      c(s.e)),
     nexists(issue,
       c(exists(publisher,
         x => con(': ', x))),
-      c('')),
+      c(s.e)),
     exists(series,
-      x => parens(con('= ', x, '; ', number), ' ')),
+      x => parens(con('= ', x, '; ', number), s.s)),
     exists(edition,
-      x => parens(con(x, '. Aufl.'), ' ')),
+      x => parens(con(x, '. Aufl.'), s.s)),
     exists(url,
       u => con(
         'Aus dem Internet: ',
@@ -123,6 +138,16 @@ $('#main input').on('input', () => {
 
   output.html(out);
   outputCopy.html(out);
+
+  if (!egg && r.egg.exec(out)) {
+    egg = setInterval(
+      () => setColor('#output', 'color', rRGB()),
+      100);
+  } else if (r.degg.exec(out)) {
+    clearInterval(egg);
+    egg = false;
+    setColor('#output', 'color', 'black')
+  }
 });
 
 
@@ -133,6 +158,7 @@ const o = {
   o:  'o.\u202fO.'
 }
 const s = {
+  e:  '',
   s:  '\u0020',
   nb: '\u00a0',
   na: '\u202f'
@@ -166,15 +192,19 @@ const fmtPages = x => {
 
 const r = {
   authors:  /^(?<a1>.+?)?(;\s*(?<a2>.+?))?(;\s*(?<a3>.+?))?(?<et>\+)?(?<hg>\/h)?$/,
-  pages:    /^(?<start>\d+)([ ,;-](?<end>\d*))?$/
+  pages:    /^(?<start>\d+)([ ,;-](?<end>\d*))?$/,
+  egg:      /mao zedong/i,
+  degg:     /i love trump/i
 }
 
 
-const italic = (x, before = '', after = '') =>
+const italic = (x, before = s.e, after = s.e) =>
   con(before, '<i>', x, '</i>', after);
-const quote = (x, before = '', after = '') =>
+const quote = (x, before = s.e, after = s.e) =>
   con(before, '„', x, '”', after);
-const parens = (x, before = '', after = '') =>
+const brackets = (x, before = s.e, after = s.e) =>
+  con(before, '[', x, ']', after);
+const parens = (x, before = s.e, after = s.e) =>
   con(before, '(', x, ')', after);
 const wrap = (x, a, b) =>
   con(a, x, b);
@@ -184,13 +214,13 @@ const con = (...s) =>
 
 const nexists = (x, fn, fy = c(x)) =>
   exists(x, fy, fn);
-const exists = (x, fy, fn = c('')) =>
+const exists = (x, fy, fn = c(s.e)) =>
   is(a => !isEmpty(a), x, fy, fn);
 
 
 const ndef = (x, fn, fy = c(x)) =>
   def(x, fy, fn);
-const def = (x, fy, fn = c('')) =>
+const def = (x, fy, fn = c(s.e)) =>
   is(isDef, x, fy, fn);
 
 
@@ -396,6 +426,27 @@ const toClipboardStyle = el => {
   document.execCommand('copy');
   window.getSelection().removeAllRanges();
   // document.getElementById( 'clickMe' ).value = 'Copied to clipboard!';
+}
+
+
+const setColor = (el, prop, c) => {
+  $(el).css(prop, c);
+}
+
+const rRGB = () =>
+  con(
+    'rgb(',
+    rInt(0, 255),
+    ',',
+    rInt(0, 255),
+    ',',
+    rInt(0, 255),
+    ')');
+
+const rInt = (min, max) => {
+    const mn = Math.ceil(min);
+    const mx = Math.floor(max);
+    return Math.floor(Math.random() * (mx - mn + 1)) + mn;
 }
 
 

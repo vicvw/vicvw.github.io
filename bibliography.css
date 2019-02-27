@@ -27,24 +27,25 @@ body {
 }
 
 #main {
-  /* box-shadow: 0 0 10px black; */
   grid-area:              main;
 
   display:                grid;
-  grid-template-columns:  repeat(3, 1fr);
-  grid-template-rows:     repeat(9, auto);
+  grid-template-columns:  repeat(4, 1fr);
+  grid-template-rows:     repeat(12, auto);
   grid-gap:               5px;
   grid-template-areas:
-    "output       output        output"
-    "title        title         volume"
-    "author       author        year"
-    "place        publisher     edition"
-    "series       series        number"
-    "collection   collection    issue"
-    "editor       editor        pages"
-    "translator   translator    date"
-    "url          url           url"
-    "explanation  explanation   explanation";
+    "output       output        output        output"
+    "title        title         title         title"
+    "title-a      title-a       title-a       volume"
+    "title-t      title-t       title-t       year"
+    "author       author        author        edition"
+    "place        place         publisher     publisher"
+    "series       series        series        number"
+    "collection   collection    collection    issue"
+    "editor       editor        editor        pages"
+    "translator   translator    translator    date"
+    "url          url           url           url"
+    "explanation  explanation   explanation   explanation";
 }
 
 #main input {
@@ -58,6 +59,15 @@ body {
   color:          black;
   font:           25px 'Noto Sans', sans-serif;
   line-height:    40px;
+  transition:     opacity 0.15s;
+}
+
+#main input:invalid {
+  opacity:  0.5;
+}
+
+#main #i-title-a {
+  font-family:    'Noto Sans CJK SC';
 }
 
 #main #i-url,
@@ -65,15 +75,12 @@ code {
   font-family:    'Noto Sans Mono Cond', monospace;
 }
 
-#main input:invalid {
-  opacity:  0.5;
-}
-
 #output {
   grid-area:      output;
   margin-bottom:  40px;
-  font:           25px 'Noto Serif', sans-serif;
+  font:           25px 'Noto Serif', 'Noto Serif CJK SC', serif;
   line-height:    40px;
+  transition:     color 0.1s;
 }
 
 #output-copy {
@@ -102,6 +109,8 @@ p + p {
 }
 
 #title      { grid-area:  title; }
+#title-a    { grid-area:  title-a; }
+#title-t    { grid-area:  title-t; }
 #volume     { grid-area:  volume; }
 #author     { grid-area:  author; }
 #year       { grid-area:  year; }
